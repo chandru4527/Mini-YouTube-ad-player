@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini YouTube</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="icon" href="./images/3580327-modified.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-weight: bold;
+        }
+
+        h1 span {
+            color: red;
+            font-size: 37px;
+        }
+
+        /* container */
+
+        .wrapper {
+            height: 350px;
+            width: 500px;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transform: translate(-50% -50%);
+            /* border: 2px solid black; */
+        }
+
+        .container {
+            height: 277px;
+            width: 491px;
+            position: relative;
+            border-radius: 10px;
+        }
+
+        .container .video {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .container .skipbtn {
+            position: absolute;
+            bottom: 8px;
+            right: 20px;
+            height: 25px;
+            width: 60px;
+            cursor: pointer;
+            background-color: #0e0e0e;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .count {
+            color: white;
+            position: absolute;
+            bottom: 8px;
+            right: 20px;
+        }
+
+        .unmute {
+            position: absolute;
+            bottom: 8px;
+            left: 20px;
+            padding: 2px;
+            cursor: pointer;
+            background-color: #0f0e0e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+        }
+
+        .mute{
+            font-size: 20px;
+        }
+
+        @media (max-width:478px) {
+            .container {
+                height: 220px;
+                width: 350px;
+            }
+
+            .wrapper {
+                height: 100vh;
+                width: 100vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <h1>Mini YouTube <span><i class="ri-youtube-fill"></i></span></h1>
+        <div class="container">
+            <video src="" playinline muted autoplay class="video"></video>
+            <p class="count">You can skip the ad 10s</p>
+            <button class="skipbtn">Skip ad</button>
+            <button class="unmute"><i class="ri-volume-mute-fill mute"></i></button>
+        </div>
+    </div>
+
+
+    <script>
+        const video = document.querySelector('.video');
+        const count = document.querySelector('.count');
+        const skipbtn = document.querySelector('.skipbtn');
+        const unmutebtn = document.querySelector('.unmute');
+        const mute = document.querySelector('.mute')
+
+        const advideosrc = "videos/Lamborginiad.mp4"
+        const maivideosrc = "videos/lamborgini2.mp4"
+
+        video.src = advideosrc
+        video.play()
+
+        unmutebtn.addEventListener('click', () => {
+            video.muted = !video.muted;
+             mute.className = video.muted ? "ri-volume-mute-fill mute":"ri-volume-up-fill mute"
+        })
+
+        let time = 10;
+
+        const timer = setInterval(() => {
+            count.innerText = `You can skip the ad ${time}s`;
+            time--;
+            if (time < 0) {
+                skipbtn.style.display = "block"
+                count.style.display = "none"
+                clearInterval(timer);
+            }
+        }, 1000);
+
+        skipbtn.addEventListener('click', () => {
+            playmainvideo();
+        });
+
+        video.addEventListener('ended', () => {
+            if (true) playmainvideo();
+            videosrc = maivideosrc
+        })
+
+        const playmainvideo = () => {
+            unmutebtn.style.display = "none"
+            skipbtn.style.display = "none"
+            video.muted = false;
+            video.controls = true;
+            video.src = maivideosrc;
+            video.play();
+        }
+
+    </script>
+
+</body>
+
+</html>
